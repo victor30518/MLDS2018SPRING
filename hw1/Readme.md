@@ -1,4 +1,17 @@
-# 1-1-2:
+# 1-1-1　Simulate a funtion
+1. 進入路徑：<br>
+```Bash
+cd code/1-1/1-1-1
+```
+2. 如果想重建畫出的結果圖(涵蓋訓練完成後的history資訊)，執行後圖片會存在跟目錄：<br>
+```Bash
+python3 hw1_1_1_plot.py
+```
+3. 如果想重新跑訓練部分執行以下指令：
+```Bash
+python3 hw1_1_1_train.py
+```
+# 1-1-2
 goal: Train on Actual Tasks
 1. 進入路徑：
 cd HW1/HW1-1
@@ -22,7 +35,20 @@ python3 hw1_1_shallow.py <br>
 \# 跑完後會將keras裡模型history存成pickle檔
 \# 透過2. 可以完成繪圖
 ______________________________________________________
-# 1-2-2:
+# 1-2-1　Visualize the optimization process
+1. 進入路徑：<br>
+```Bash
+cd code/1-2/1-2-1
+```
+2. 如果想重建畫出的結果圖(涵蓋訓練完成後的history資訊)，執行後圖片會存在跟目錄：<br>
+```Bash
+python3 hw1_2_1_plot.py
+```
+3. 如果想重新跑訓練部分執行以下指令：
+```Bash
+python3 hw1_2_1_train.py
+```
+# 1-2-2
 goal: Observe Gradient Norm During Training
 1. 進入路徑：
 cd HW1/HW1-2
@@ -59,7 +85,7 @@ python3 hw1_2_bonus.py <br>
 \# 透過2. 可以完成繪圖
 _________________________________________________
 
-# 1-3-3-part 2:
+# 1-3-3-part 2
 goal: Flatness v.s. Generalization - part2
 1. 進入路徑：
 cd HW1/HW1-3
