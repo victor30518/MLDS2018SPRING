@@ -1,4 +1,4 @@
-1-1-2:
+# 1-1-2:
 goal: Train on Actual Tasks
 1. 進入路徑：
 cd HW1/HW1-1
@@ -22,7 +22,7 @@ python3 hw1_1_shallow.py <br>
 \# 跑完後會將keras裡模型history存成pickle檔
 \# 透過2. 可以完成繪圖
 ______________________________________________________
-1-2-2:
+# 1-2-2:
 goal: Observe Gradient Norm During Training
 1. 進入路徑：
 cd HW1/HW1-2
@@ -59,7 +59,7 @@ python3 hw1_2_bonus.py <br>
 \# 透過2. 可以完成繪圖
 _________________________________________________
 
-1-3-3-part 2:
+# 1-3-3-part 2:
 goal: Flatness v.s. Generalization - part2
 1. 進入路徑：
 cd HW1/HW1-3
