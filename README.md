@@ -1,5 +1,6 @@
 # MLDS2018SPRING
-> HW1
->> (1-1) Deep vs Shallow
->> (1-2) Optimization
->> (1-3) Generalization
+Machine Learning and having it deep and structured (2018,Spring) <br>
+> ## HW1
+>> (1-1) Deep vs Shallow <br>
+>> (1-2) Optimization <br>
+>> (1-3) Generalization <br>
