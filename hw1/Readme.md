@@ -12,28 +12,30 @@ python3 hw1_1_1_plot.py
 python3 hw1_1_1_train.py
 ```
 # 1-1-2
-goal: Train on Actual Tasks
-1. 進入路徑：
-cd HW1/HW1-1
+goal: Train on Actual Tasks<br>
+1. 進入路徑：<br>
+```Bash
+cd code/HW1/HW1-1
+```
+2. 如果想重建畫出的結果圖(涵蓋訓練完成後的history資訊)：<br>
+```Bash
+# it will call deep.pickle, mid.pickle and shallow.pickle to plot the loss and acc.
+python3 hw1_1_plot_img.py
+```
+3. 如果想重新跑訓練部分執行以下指令：<br>
+```Bash
+# training for deep model and save model history information as deep.pickle
+python3 hw1_1_deep.py
 
-2. 如果想重建畫出的結果圖(涵蓋訓練完成後的history資訊)：
+# training for middle model and save model history information as mid.pickle
+python3 hw1_1_mid.py
 
-\# it will call deep.pickle, mid.pickle and shallow.pickle to plot the loss and acc. <br>
-python3 hw1_1_plot_img.py <br>
+# training for shallow model and save model history information as shallow.pickle
+python3 hw1_1_shallow.py
 
-3. 如果想重新跑訓練部分執行以下指令：
-
-\# training for deep model and save model history information as deep.pickle <br>
-python3 hw1_1_deep.py <br>
-
-\# training for middle model and save model history information as mid.pickle <br>
-python3 hw1_1_mid.py <br>
-
-\# training for shallow model and save model history information as shallow.pickle <br>
-python3 hw1_1_shallow.py <br>
-
-\# 跑完後會將keras裡模型history存成pickle檔
-\# 透過2. 可以完成繪圖
+# 跑完後會將keras裡模型history存成pickle檔
+# 透過2. 可以完成繪圖
+```
 ______________________________________________________
 # 1-2-1　Visualize the optimization process
 1. 進入路徑：<br>
