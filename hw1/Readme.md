@@ -93,12 +93,14 @@ python3 hw1_2_plot_bonus.py
 ```
 _________________________________________________
 
-# 1-3-3-part 2
-goal: Flatness v.s. Generalization - part2
-1. 進入路徑：
-cd HW1/HW1-3
-
-2. 訓練不同training approaches並畫圖
+# 1-3-3-part2 Flatness v.s. Generalization - part2
+1. 進入路徑：<br>
+```Bash
+cd code/1-3/1-3-3-2
+```
+2. 訓練不同training approaches並畫圖<br>
+```Bash
 python3 hw1_3_3_2.py
+```
 __________________________________________________
 
