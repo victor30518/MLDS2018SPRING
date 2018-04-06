@@ -66,7 +66,7 @@ python3 hw1_2_2.py
 # 1-2-bonus Use any method to visualize the error surface(用起始跟終止權重內插的方法)
 1. 進入路徑： <br>
 ```Bash
-cd code/1-2/1-2-bonus
+cd code/1-2/1-2-2
 ```
 2. 直接重建結果，根據所存的train_loss.npy跟val_loss.npy畫出error surface：<br>
 ```Bash
