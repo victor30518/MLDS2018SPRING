@@ -40,6 +40,15 @@ python3 hw1_1_shallow.py
 # 透過2. 可以完成繪圖
 python3 hw1_1_plot_img.py
 ```
+# 1-1-Bonus
+1. 進入路徑：<br>
+```Bash
+cd code/1-1/bonus
+```
+2. 如果想重建畫出的結果圖(涵蓋訓練完成後的history資訊)：<br>
+```Bash
+python3 hw1_1_bonus_plot.py
+```
 ______________________________________________________
 # 1-2-1 Visualize the optimization process
 1. 進入路徑：<br>
@@ -64,6 +73,16 @@ cd code/1-2/1-2-2
 ```Bash
 #跑訓練過程，順便畫圖
 python3 hw1_2_2.py
+```
+# 1-2-3 What happens when gradient is almost zero?
+1. 進入路徑： <br>
+```Bash
+cd code/1-2/1-2-3
+```
+2. 執行程式： <br>
+```Bash
+#執行一次訓練過程 並且印出loss與minimal ratio
+python3 hw1_2_3.py
 ```
 # 1-2-bonus Use any method to visualize the error surface(用起始跟終止權重內插的方法)
 1. 進入路徑： <br>
@@ -94,6 +113,24 @@ python3 hw1_2_bonus.py
 python3 hw1_2_plot_bonus.py
 ```
 _________________________________________________
+# 1-3-1-Can network fit random variables?
+1. 進入路徑：<br>
+```Bash
+cd code/1-3/1-3-1
+```
+2. 訓練model來fit random label的data，並且產生圖形：<br>
+```Bash
+python3 hw1_3_1.py
+```
+# 1-3-2-Number of parameters v.s. Generalization
+1. 進入路徑：<br>
+```Bash
+cd code/1-3/1-3-2
+```
+2. 執行一次訓練並且繪圖（改變變數neuron的值，可增減參數量來進行訓練）：<br>
+```Bash
+python3 hw1_3_1.py
+```
 # 1-3-3-part1 Flatness v.s. Generalization - part1
 1. 進入路徑：<br>
 ```Bash
