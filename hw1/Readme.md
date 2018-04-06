@@ -1,4 +1,4 @@
-# 1-1-1　Simulate a funtion
+# 1-1-1 Simulate a funtion
 1. 進入路徑：<br>
 ```Bash
 cd code/1-1/1-1-1
@@ -9,6 +9,7 @@ python3 hw1_1_1_plot.py
 ```
 3. 如果想重新跑訓練部分執行以下指令：
 ```Bash
+# 注意!執行後將覆蓋掉原本的資料
 python3 hw1_1_1_train.py
 ```
 # 1-1-2 Train on Actual Tasks
@@ -40,17 +41,18 @@ python3 hw1_1_shallow.py
 python3 hw1_1_plot_img.py
 ```
 ______________________________________________________
-# 1-2-1　Visualize the optimization process
+# 1-2-1 Visualize the optimization process
 1. 進入路徑：<br>
 ```Bash
 cd code/1-2/1-2-1
 ```
-2. 如果想重建畫出的結果圖(涵蓋訓練完成後的history資訊)，執行後圖片會存在跟目錄：<br>
+2. 如果想重建畫出的結果圖，執行後圖片會存在跟目錄：<br>
 ```Bash
 python3 hw1_2_1_plot.py
 ```
 3. 如果想重新跑訓練部分執行以下指令：
 ```Bash
+# 注意!執行後將覆蓋掉原本的資料
 python3 hw1_2_1_train.py
 ```
 # 1-2-2 Observe Gradient Norm During Training
@@ -92,7 +94,21 @@ python3 hw1_2_bonus.py
 python3 hw1_2_plot_bonus.py
 ```
 _________________________________________________
-
+# 1-3-3-part1 Flatness v.s. Generalization - part1
+1. 進入路徑：<br>
+```Bash
+cd code/1-3/1-3-3-1
+```
+2. 如果想重建畫出的結果圖，執行後圖片會存在跟目錄：<br>
+```Bash
+python3 hw1_3_3_1_plot.py
+```
+3. 如果想重新跑訓練部分執行以下指令：
+```Bash
+# 注意!執行後將覆蓋掉原本的資料
+python3 hw1_3_3_1_train_1.py
+python3 hw1_3_3_1_train_2.py
+```
 # 1-3-3-part2 Flatness v.s. Generalization - part2
 1. 進入路徑：<br>
 ```Bash
