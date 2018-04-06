@@ -11,11 +11,10 @@ python3 hw1_1_1_plot.py
 ```Bash
 python3 hw1_1_1_train.py
 ```
-# 1-1-2
-goal: Train on Actual Tasks<br>
+# 1-1-2 Train on Actual Tasks
 1. 進入路徑：<br>
 ```Bash
-cd code/HW1/HW1-1
+cd code/1-1/1-1-2
 ```
 2. 如果想重建畫出的結果圖(涵蓋訓練完成後的history資訊)：<br>
 ```Bash
@@ -34,7 +33,11 @@ python3 hw1_1_mid.py
 python3 hw1_1_shallow.py
 
 # 跑完後會將keras裡模型history存成pickle檔
+```
+4. 畫結果圖(涵蓋訓練完成後的history資訊)：<br>
+```Bash
 # 透過2. 可以完成繪圖
+python3 hw1_1_plot_img.py
 ```
 ______________________________________________________
 # 1-2-1　Visualize the optimization process
@@ -50,41 +53,44 @@ python3 hw1_2_1_plot.py
 ```Bash
 python3 hw1_2_1_train.py
 ```
-# 1-2-2
-goal: Observe Gradient Norm During Training
-1. 進入路徑：
-cd HW1/HW1-2
-
-2. 執行程式：
-
-\#跑訓練過程，順便畫圖 <br>
-python3 hw1_2_2.py <br>
-
-1-2-bonus:
-goal: Use any method to visualize the error surface(用起始跟終止權重內插的方法)
-1. 進入路徑：
-cd HW1/HW1-3
-
-2. 直接重建結果，根據所存的train_loss.npy跟val_loss.npy畫出error surface：
-
-\# plot error surface for training and validation losses <br>
-python3 hw1_2_plot_bonus.py <br>
-
-3. 如果要重新訓練，從這里開始。首先，訓練模型並save model(存權重):
-
-\# training and saving the model <br>
-python3 hw1_2_bonus_train.py <br>
-
-4. 恢復模型權重來做線性內插再算loss，並將losses存成numpy array：
-
-\# restore model(weights) and do the linear interpolation <br>
-\# (sampling 2000 points between 0, 1., which is alpha value) <br>
-\# (1-alpha)*initial weights + alpha*final weights <br>
-\# it will save the training and validation losses <br>
-python3 hw1_2_bonus.py <br>
-
-5. 根據所存的train_loss.npy跟val_loss.npy畫出error surface：
-\# 透過2. 可以完成繪圖
+# 1-2-2 Observe Gradient Norm During Training
+1. 進入路徑： <br>
+```Bash
+cd code/1-2/1-2-2
+```
+2. 執行程式： <br>
+```Bash
+#跑訓練過程，順便畫圖
+python3 hw1_2_2.py
+```
+# 1-2-bonus Use any method to visualize the error surface(用起始跟終止權重內插的方法)
+1. 進入路徑： <br>
+```Bash
+cd code/1-2/1-2-bonus
+```
+2. 直接重建結果，根據所存的train_loss.npy跟val_loss.npy畫出error surface：<br>
+```Bash
+# plot error surface for training and validation losses
+python3 hw1_2_plot_bonus.py
+```
+3. 如果要重新訓練，從這里開始。首先，訓練模型並save model(存權重):<br>
+```Bash
+# training and saving the model
+python3 hw1_2_bonus_train.py
+```
+4. 恢復模型權重來做線性內插再算loss，並將losses存成numpy array：<br>
+```Bash
+# restore model(weights) and do the linear interpolation
+# (sampling 2000 points between 0, 1., which is alpha value)
+# (1-alpha)*initial weights + alpha*final weights
+# it will save the training and validation losses
+python3 hw1_2_bonus.py
+```
+5. 根據所存的train_loss.npy跟val_loss.npy畫出error surface：<br>
+```Bash
+# 透過2. 可以完成繪圖
+python3 hw1_2_plot_bonus.py
+```
 _________________________________________________
 
 # 1-3-3-part 2
