@@ -20,7 +20,7 @@ parser= argparse.ArgumentParser(description='seq2seq')
 parser.add_argument("--EVAL", default=True, type=bool)
 parser.add_argument("--input_file", default='test_input.txt')
 parser.add_argument("--output_file", default='output.txt')
-parser.add_argument("--training_file", default='./hw2_2data/clr_conversation.txt')
+parser.add_argument("--training_file", default='./clr_conversation.txt')  #training data is not exist
 parser.add_argument("--loadFilename", default='./50000_64.tar')
 parser.add_argument("--n_iterations", default=120000, type=int)
 
