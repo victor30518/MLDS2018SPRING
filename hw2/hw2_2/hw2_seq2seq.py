@@ -17,7 +17,7 @@ torch.backends.cudnn.enabled=True
 USE_CUDA = True
 
 parser= argparse.ArgumentParser(description='seq2seq')
-parser.add_argument("--EVAL", default=True, type=bool)
+parser.add_argument('--EVAL', action='store_true', help='Test the saved model')
 parser.add_argument("--input_file", default='test_input.txt')
 parser.add_argument("--output_file", default='output.txt')
 parser.add_argument("--training_file", default='./clr_conversation.txt') #training data is not exist
@@ -26,7 +26,9 @@ parser.add_argument("--n_iterations", default=200000, type=int)
 
 args = parser.parse_args()
 
-EVAL = args.EVAL
+EVAL = False
+if args.EVAL:
+    EVAL = True
 input_file = args.input_file
 output_file = args.output_file
 training_file = args.training_file
