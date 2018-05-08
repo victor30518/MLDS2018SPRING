@@ -25,7 +25,7 @@ python3 hw2_seq2seq.py --training_file=path_of_training_file --loadFilename=path
 ## Evaluate our seq2seq model(without attention)：
 ```Bash
 wget 'https://www.dropbox.com/s/z79d5am3kss9wec/50000_64.tar?dl=1' -O 50000_64.tar
-python3 hw2_seq2seq_naive.py --EVAL --input_file=path_of_input_file --output_file=path_of_output_file --loadFilename='./50000_64.tar'
+python3 hw2_seq2seq_naive.py --EVAL --input_file=path_of_input_file --output_file=path_of_output_file --loadFilename=./50000_64.tar
 ```
 
 
