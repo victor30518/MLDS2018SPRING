@@ -1,10 +1,12 @@
-# Implement a seq2seq model
+# Implement a chatbot
+We want to use seq2seq model to implement a chatbot.
+
 ## Evaluate our seq2seq model(with attention)：
 Run the bash script.
 ```Bash
 bash hw2_seq2seq.sh $1 $2
-# $1:input_file, e.g., test_input.txt
-# $2:output_file, e.g., output.txt
+# $1:path_of_input_file, e.g., ./test_input.txt
+# $2:path_of_output_file, e.g., ./output.txt
 ```
 ## Train a seq2seq model using original encoder-decoder：
 ```Bash
@@ -19,11 +21,9 @@ python3 hw2_seq2seq.py --training_file=path_of_training_file --loadFilename=path
 # if you doensn't want to adjust the training iterations or using checkpoint, please feel free to ignore these arguments
 ```
 ## Evaluate our seq2seq model(without attention)：
-Run the bash script.
 ```Bash
-bash hw2_seq2seq.sh $1 $2
-# $1:input_file, e.g., test_input.txt
-# $2:output_file, e.g., output.txt
+wget 'https://www.dropbox.com/s/z79d5am3kss9wec/50000_64.tar?dl=1' -O 50000_64.tar
+python3 hw2_seq2seq_naive.py --EVAL --input_file=path_of_input_file --output_file=path_of_output_file --loadFilename='./50000_64.tar'
 ```
 
 
