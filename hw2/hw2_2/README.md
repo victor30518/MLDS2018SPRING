@@ -1,6 +1,6 @@
 # Implement a chatbot
-We want to use seq2seq model to implement a chatbot.
-
+We want to use seq2seq model to implement a chatbot.<br>
+We refer to the language translation model, [seq2seq-translation-batched](https://github.com/spro/practical-pytorch/blob/master/seq2seq-translation/seq2seq-translation-batched.ipynb), built by spro to do our work.
 ## Requirements & their versions：
 Python >=3.5<br>
 Pytorch 0.3.0<br>
