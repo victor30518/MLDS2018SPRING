@@ -404,7 +404,7 @@ if USE_CUDA:
     encoder.cuda()
     decoder.cuda()
 
-if loadFilename:
+if loadFilename and EVAL:
     checkpoint = torch.load(loadFilename)
     encoder.load_state_dict(checkpoint['en'])
     decoder.load_state_dict(checkpoint['de'])
