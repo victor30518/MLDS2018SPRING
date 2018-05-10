@@ -1,6 +1,11 @@
 # Implement a chatbot
 We want to use seq2seq model to implement a chatbot.
 
+## Requirements & their versions：
+Python >=3.5<br>
+Pytorch 0.3.0<br>
+Numpy
+
 ## Evaluate our seq2seq model(with attention)：
 Run the bash script.
 ```Bash
