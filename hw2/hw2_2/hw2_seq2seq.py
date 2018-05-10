@@ -21,7 +21,7 @@ parser.add_argument('--EVAL', action='store_true', help='Test the saved model')
 parser.add_argument("--input_file", default=None)
 parser.add_argument("--output_file", default=None)
 parser.add_argument("--training_file", default=None) #training data is not exist
-parser.add_argument("--loadFilename", default='./120000_64.tar')
+parser.add_argument("--loadFilename", default=None)
 parser.add_argument("--n_iterations", default=200000, type=int)
 
 args = parser.parse_args()
@@ -422,7 +422,7 @@ if USE_CUDA:
     encoder.cuda()
     decoder.cuda()
 
-if loadFilename and EVAL:
+if loadFilename:
     checkpoint = torch.load(loadFilename)
     encoder.load_state_dict(checkpoint['en'])
     decoder.load_state_dict(checkpoint['de'])
