@@ -28,8 +28,8 @@ python3 model_seq2seq.py
 After training, you can give generateCaption.py a new checkpoint in line70 and run the evaluation script to get result
 
 ## Reference：
-] S. Venugopalan, M. Rohrbach, J. Donahue, R. J. Mooney,T. Darrell, and K. Saenko. Sequence to sequence - video to text
-http://cs231n.stanford.edu/reports/2017/pdfs/31.pdf
+] S. Venugopalan, M. Rohrbach, J. Donahue, R. J. Mooney,T. Darrell, and K. Saenko. Sequence to sequence - video to text<br>
+http://cs231n.stanford.edu/reports/2017/pdfs/31.pdf<br>
 https://github.com/Blues5/video-caption-pytorch
 
 
