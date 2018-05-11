@@ -1,3 +1,3 @@
 #!/bin/bash 
-wget -O model_68.pth "https://www.dropbox.com/s/ccsmqgex6n5nclv/model_68.pth?dl=1"
+wget -O good_model.pth "https://www.dropbox.com/s/5e9u9tt6gmecq5n/good_model.pth?dl=1"
 python generateCaption.py $1 $2
