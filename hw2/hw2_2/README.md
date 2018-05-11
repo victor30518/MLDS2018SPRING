@@ -1,11 +1,9 @@
 # Implement a chatbot
 We want to use seq2seq model to implement a chatbot.<br>
-We refer to the language translation model, [seq2seq-translation-batched](https://github.com/spro/practical-pytorch/blob/master/seq2seq-translation/seq2seq-translation-batched.ipynb), built by spro to do our work.
 ## Requirements & their versions：
 Python >=3.5<br>
 Pytorch 0.3.0<br>
 Numpy
-
 ## Evaluate our seq2seq model(with attention)：
 Run the bash script.
 ```Bash
@@ -32,6 +30,9 @@ python3 hw2_seq2seq.py --training_file=path_of_training_file --loadFilename=path
 wget 'https://www.dropbox.com/s/z79d5am3kss9wec/50000_64.tar?dl=1' -O 50000_64.tar
 python3 hw2_seq2seq_naive.py --EVAL --input_file=path_of_input_file --output_file=path_of_output_file --loadFilename=./50000_64.tar
 ```
+## Reference
+We refer to the language translation model, [seq2seq-translation-batched](https://github.com/spro/practical-pytorch/blob/master/seq2seq-translation/seq2seq-translation-batched.ipynb), built by spro to do our work.<br>
+[Effective Approaches to Attention-based Neural Machine Translation](https://arxiv.org/abs/1508.04025) et al. Luong
 
 
 
