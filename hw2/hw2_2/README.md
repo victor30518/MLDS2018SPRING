@@ -32,7 +32,7 @@ python3 hw2_seq2seq_naive.py --EVAL --input_file=path_of_input_file --output_fil
 ```
 ## Reference
 We refer to the language translation model, [seq2seq-translation-batched](https://github.com/spro/practical-pytorch/blob/master/seq2seq-translation/seq2seq-translation-batched.ipynb), built by spro to do our work.<br>
-[Effective Approaches to Attention-based Neural Machine Translation](https://arxiv.org/abs/1508.04025) et al. Luong
+[Effective Approaches to Attention-based Neural Machine Translation](https://arxiv.org/abs/1508.04025) et al. Luong, 2015
 
 
 
