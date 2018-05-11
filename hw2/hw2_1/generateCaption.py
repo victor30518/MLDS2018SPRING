@@ -67,7 +67,7 @@ decoder = Decoder(vocab_size, seq_length, dim_hidden, dim_word, rnn_dropout_p=0.
 model = Model(encoder, decoder).cuda()
 
 model = nn.DataParallel(model)
-model.load_state_dict(torch.load('./ckpt/model_150.pth'))
+model.load_state_dict(torch.load('./model_68.pth'))
 model.eval()
 test(model, dataset, dataset.get_vocab())
 
