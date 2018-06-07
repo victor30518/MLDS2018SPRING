@@ -1,2 +1,2 @@
 #!/bin/bash 
-python generate_3_1.py 
+python3 generate_3_1.py 
