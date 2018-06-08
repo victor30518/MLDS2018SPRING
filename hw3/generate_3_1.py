@@ -59,5 +59,5 @@ for i in range(r):
         axs[i,j].imshow(gen_imgs.data[cnt].cpu().numpy().transpose(1,2,0))
         axs[i,j].axis('off')
         cnt += 1
-fig.savefig("./samples/output.png")
+fig.savefig("./samples/gan.png")
 plt.close()
