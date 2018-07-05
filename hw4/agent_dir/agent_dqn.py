@@ -2,25 +2,22 @@ from agent_dir.agent import Agent
 import tensorflow as tf 
 import numpy as np 
 import random
+np.random.seed(631)
+random.seed(631)
 from collections import deque
 import os
 os.environ['CUDA_VISIBLE_DEVICES'] = "0"
-# Hyper Parameters:
-FRAME_PER_ACTION = 1
 
-GAMMA = 0.95 # decay rate of past observations
-
-OBSERVE = 50000. # timesteps to observe before training
-EXPLORE = 1000000. # frames over which to anneal epsilon
-
-FINAL_EPSILON = 0.1#0.001 # final value of epsilon
-INITIAL_EPSILON = 1.0#0.01 # starting value of epsilon
-
-REPLAY_MEMORY = 10000 # number of previous transitions to remember
-BATCH_SIZE = 32 # size of minibatch
-UPDATE_TIME = 10000
+GAMMA = 0.95 
+END_EPSILON = 0.1
+INIT_EPSILON = 1.0
+REPLAY_BUFFER = 10000 
+BATCH_SIZE = 32
+UPDATE_Qhat_TIME = 10000
+UPDATE_Q_TIME = 4
 NUM_EPISODES = 100000
 MAX_NUM_STEPS = 10000
+MODEL_NAME = "./tf_DQN-14720000"
 
 class Agent_DQN(Agent):
     def __init__(self, env, args):
@@ -31,30 +28,24 @@ class Agent_DQN(Agent):
 
         super(Agent_DQN,self).__init__(env)
         
-
         self.env = env
         self.args = args
-        # init replay memory
-        self.replayMemory = deque()
-        # init some parameters
-        self.timeStep = 0
-        self.epsilon = INITIAL_EPSILON
+        self.epsilon = INIT_EPSILON
         self.actions = env.action_space.n
-        if args.test_pg:
-            sess = tf.InteractiveSession(config=tf.ConfigProto(gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.3)))
-            sess.close()
-            print("reset")
-            tf.reset_default_graph()
-        # init Q network
+        # init
+        self.timeStep = 0
+        self.replayBuffer = deque()
         self.stateInput,self.QValue,self.W_conv1,self.b_conv1,self.W_conv2,self.b_conv2,self.W_conv3,self.b_conv3,self.W_fc1,self.b_fc1,self.W_fc2,self.b_fc2 = self.createQNetwork()
-
-        # init Target Q Network
         self.stateInputT,self.QValueT,self.W_conv1T,self.b_conv1T,self.W_conv2T,self.b_conv2T,self.W_conv3T,self.b_conv3T,self.W_fc1T,self.b_fc1T,self.W_fc2T,self.b_fc2T = self.createQNetwork()
+        # assign value(copy net)
+        self.TargetQupdate = [self.W_conv1T.assign(self.W_conv1),self.b_conv1T.assign(self.b_conv1),self.W_conv2T.assign(self.W_conv2),self.b_conv2T.assign(self.b_conv2),self.W_conv3T.assign(self.W_conv3),self.b_conv3T.assign(self.b_conv3),self.W_fc1T.assign(self.W_fc1),self.b_fc1T.assign(self.b_fc1),self.W_fc2T.assign(self.W_fc2),self.b_fc2T.assign(self.b_fc2)]
 
-        self.copyTargetQNetworkOperation = [self.W_conv1T.assign(self.W_conv1),self.b_conv1T.assign(self.b_conv1),self.W_conv2T.assign(self.W_conv2),self.b_conv2T.assign(self.b_conv2),self.W_conv3T.assign(self.W_conv3),self.b_conv3T.assign(self.b_conv3),self.W_fc1T.assign(self.W_fc1),self.b_fc1T.assign(self.b_fc1),self.W_fc2T.assign(self.W_fc2),self.b_fc2T.assign(self.b_fc2)]
-
-        self.createTrainingMethod()
-        
+        # define loss function & placeholder
+        self.actionInput = tf.placeholder("float",[None,self.actions])
+        self.yInput = tf.placeholder("float", [None]) 
+        Q_Action = tf.reduce_sum(tf.multiply(self.QValue, self.actionInput), reduction_indices = 1)
+        self.loss = tf.reduce_mean(tf.square(self.yInput - Q_Action))
+        self.trainStep = tf.train.RMSPropOptimizer(0.00025,0.99,0.0,1e-6).minimize(self.loss)        
 
         # saving and loading networks
         self.saver = tf.train.Saver()
@@ -63,10 +54,8 @@ class Agent_DQN(Agent):
 
         if args.test_dqn:
             #you can load your model here
-            print('testing------- loading trained model-------')
-            # model_file = tf.train.latest_checkpoint("./test_model")
-            model_file = "./tf_DQN-15140000"
-            self.saver.restore(self.session, model_file)
+            print('loading trained model')
+            self.saver.restore(self.session, MODEL_NAME)
             print("Model restored.")
 
     def init_game_setting(self):
@@ -97,18 +86,13 @@ class Agent_DQN(Agent):
         b_fc2 = self.bias_variable([self.actions])
 
         # input layer
-
         stateInput = tf.placeholder("float",[None,84,84,4])
 
         # hidden layers
         h_conv1 = tf.nn.relu(self.conv2d(stateInput,W_conv1,4) + b_conv1)
-        #h_pool1 = self.max_pool_2x2(h_conv1)
-
         h_conv2 = tf.nn.relu(self.conv2d(h_conv1,W_conv2,2) + b_conv2)
-
         h_conv3 = tf.nn.relu(self.conv2d(h_conv2,W_conv3,1) + b_conv3)
         h_conv3_shape = h_conv3.get_shape().as_list()
-        print ("dimension:",h_conv3_shape[1]*h_conv3_shape[2]*h_conv3_shape[3])
         h_conv3_flat = tf.reshape(h_conv3,[-1,3136])
         h_fc1 = tf.nn.relu(tf.matmul(h_conv3_flat,W_fc1) + b_fc1)
 
@@ -118,26 +102,19 @@ class Agent_DQN(Agent):
         return stateInput,QValue,W_conv1,b_conv1,W_conv2,b_conv2,W_conv3,b_conv3,W_fc1,b_fc1,W_fc2,b_fc2
 
     def copyTargetQNetwork(self):
-        self.session.run(self.copyTargetQNetworkOperation)
-
-    def createTrainingMethod(self):
-        self.actionInput = tf.placeholder("float",[None,self.actions])
-        self.yInput = tf.placeholder("float", [None]) 
-        Q_Action = tf.reduce_sum(tf.multiply(self.QValue, self.actionInput), reduction_indices = 1)
-        self.cost = tf.reduce_mean(tf.square(self.yInput - Q_Action))
-        self.trainStep = tf.train.RMSPropOptimizer(0.00025,0.99,0.0,1e-6).minimize(self.cost)
+        self.session.run(self.TargetQupdate)
 
     def trainQNetwork(self):
 
         
-        # Step 1: obtain random minibatch from replay memory
-        minibatch = random.sample(self.replayMemory,BATCH_SIZE)
+        # random sample minibatch from replay memory
+        minibatch = random.sample(self.replayBuffer,BATCH_SIZE)
         state_batch = [data[0] for data in minibatch]
         action_batch = [data[1] for data in minibatch]
         reward_batch = [data[2] for data in minibatch]
         nextState_batch = [data[3] for data in minibatch]
 
-        # Step 2: calculate y 
+        # compute y
         y_batch = []
         QValue_batch = self.QValueT.eval(feed_dict={self.stateInputT:nextState_batch})
         for i in range(0,BATCH_SIZE):
@@ -147,31 +124,15 @@ class Agent_DQN(Agent):
             else:
                 y_batch.append(reward_batch[i] + GAMMA * np.max(QValue_batch[i]))
 
-        self.trainStep.run(feed_dict={
-            self.yInput : y_batch,
-            self.actionInput : action_batch,
-            self.stateInput : state_batch
-            })
+        self.trainStep.run(feed_dict={self.yInput : y_batch, self.actionInput : action_batch, self.stateInput : state_batch})
 
-        # save network every 100000 iteration
+        # save network
         if self.timeStep % 10000 == 0:
-            self.saver.save(self.session, './save_model/tf_DQN', global_step = self.timeStep)
-
-        if self.timeStep % UPDATE_TIME == 0:
+            self.saver.save(self.session, './save_model/DQN', global_step = self.timeStep)
+        
+        # update target Q
+        if self.timeStep % UPDATE_Qhat_TIME == 0:
             self.copyTargetQNetwork()
-
-    def setPerception(self,current_state,action,reward,next_state,done):
-        one_hot_action = np.zeros(self.actions)
-        one_hot_action[action] = 1
-        self.replayMemory.append((current_state,one_hot_action,a, a_min, a_max,next_state,done))
-        if len(self.replayMemory) > REPLAY_MEMORY:
-            self.replayMemory.popleft()
-        if len(self.replayMemory) > BATCH_SIZE:
-            # skip frame
-            if self.timeStep % 4 ==0:
-                # Train the network
-                self.trainQNetwork()
-        self.timeStep += 1
 
     def make_action(self,observation, test=True):
         observation = observation.reshape((1,84,84,4))
@@ -187,26 +148,37 @@ class Agent_DQN(Agent):
         elif test:
             action = random.randrange(self.actions)
 
-        if self.epsilon > FINAL_EPSILON and self.timeStep > OBSERVE:
-            self.epsilon -= (INITIAL_EPSILON - FINAL_EPSILON) / EXPLORE
+        if self.epsilon > END_EPSILON and self.timeStep > 50000.: 
+            self.epsilon -= (INIT_EPSILON - END_EPSILON) / 1000000.
             
         return action
+
+
+    def setPerception(self,current_state,action,reward,next_state,done):
+        one_hot_action = np.zeros(self.actions)
+        one_hot_action[action] = 1
+        self.replayBuffer.append((current_state,one_hot_action,reward,next_state,done))
+        if len(self.replayBuffer) > REPLAY_BUFFER:
+            self.replayBuffer.popleft()
+        if len(self.replayBuffer) > BATCH_SIZE:
+            # skip frame
+            if self.timeStep % UPDATE_Q_TIME ==0:
+                # Train the network
+                self.trainQNetwork()
+        self.timeStep += 1
+
     def train(self):
         """
         Implement your training algorithm here
         """
-        # self.env
-        # action0 = [1,0,0,0]  # do nothing
-        # observation0, reward0, terminal, _ = self.env.step(np.argmax(action0))
         print("environment output shape:",self.env.reset().shape)
-        learning_history = []
+        records = []
         for e in range(NUM_EPISODES):
-            observation = self.env.reset() # (84,84,4)
+            current_state = self.env.reset() # (84,84,4)
             step_count = 0
             total_reward = 0
-            current_state = observation
 
-            for s in range(MAX_NUM_STEPS):
+            for ct in range(MAX_NUM_STEPS):
                 action = self.make_action(current_state, test=False)
                 next_state,reward, done, _ = self.env.step(action)
                 unclip_reward = reward
@@ -217,15 +189,14 @@ class Agent_DQN(Agent):
                 self.setPerception(current_state,action,reward,next_state, done)
                 current_state = next_state
 
-                # total_reward += unclip_reward
                 step_count +=1 
 
                 if done == True:
-                    print("episode:", e, " step_count:",step_count," reward:",total_reward," total time steps:",self.timeStep)
-                    learning_history.append((e,step_count,total_reward,self.timeStep))
+                    print("episode:", e, " reward:",total_reward)
+                    records.append((e,step_count,total_reward,self.timeStep))
                     break
-            if e % 1000 ==0:
-                np.save("dqn_learning_history_unclip.npy", np.array(learning_history))
+
+            np.save("learning_curve_unclip.npy", np.array(records))
 
     def weight_variable(self,shape):
         initial = tf.truncated_normal(shape, stddev = 0.01)
