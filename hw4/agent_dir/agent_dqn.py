@@ -1,23 +1,23 @@
-from agent_dir.agent import Agent
-import tensorflow as tf 
 import numpy as np 
 import random
 np.random.seed(631)
 random.seed(631)
+from agent_dir.agent import Agent
+import tensorflow as tf 
 from collections import deque
 import os
 os.environ['CUDA_VISIBLE_DEVICES'] = "0"
 
+UPDATE_Qhat_TIME = 10000
+UPDATE_Q_TIME = 4
 GAMMA = 0.95 
+NUM_EPISODES = 100000
+MAX_NUM_STEPS = 10000
 END_EPSILON = 0.1
 INIT_EPSILON = 1.0
 REPLAY_BUFFER = 10000 
-BATCH_SIZE = 32
-UPDATE_Qhat_TIME = 10000
-UPDATE_Q_TIME = 4
-NUM_EPISODES = 100000
-MAX_NUM_STEPS = 10000
 MODEL_NAME = "./tf_DQN-14720000"
+BATCH_SIZE = 32
 
 class Agent_DQN(Agent):
     def __init__(self, env, args):
@@ -46,8 +46,6 @@ class Agent_DQN(Agent):
         Q_Action = tf.reduce_sum(tf.multiply(self.QValue, self.actionInput), reduction_indices = 1)
         self.loss = tf.reduce_mean(tf.square(self.yInput - Q_Action))
         self.trainStep = tf.train.RMSPropOptimizer(0.00025,0.99,0.0,1e-6).minimize(self.loss)        
-
-        # saving and loading networks
         self.saver = tf.train.Saver()
         self.session = tf.InteractiveSession(config=tf.ConfigProto(gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.5)))
         self.session.run(tf.global_variables_initializer())
@@ -171,10 +169,9 @@ class Agent_DQN(Agent):
         """
         Implement your training algorithm here
         """
-        print("environment output shape:",self.env.reset().shape)
-        records = []
+        records = [] #save to plot learning curve
         for e in range(NUM_EPISODES):
-            current_state = self.env.reset() # (84,84,4)
+            current_state = self.env.reset()
             step_count = 0
             total_reward = 0
 
