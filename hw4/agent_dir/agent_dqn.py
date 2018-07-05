@@ -1,3 +1,7 @@
+"""
+reference:
+https://github.com/floodsung/DQN-Atari-Tensorflow/blob/master/BrainDQN_Nature.py
+"""
 import numpy as np 
 import random
 np.random.seed(631)
@@ -6,13 +10,10 @@ from agent_dir.agent import Agent
 import tensorflow as tf 
 from collections import deque
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = "0"
 
 UPDATE_Qhat_TIME = 10000
 UPDATE_Q_TIME = 4
 GAMMA = 0.95 
-NUM_EPISODES = 100000
-MAX_NUM_STEPS = 10000
 END_EPSILON = 0.1
 INIT_EPSILON = 1.0
 REPLAY_BUFFER = 10000 
@@ -54,7 +55,7 @@ class Agent_DQN(Agent):
             #you can load your model here
             print('loading trained model')
             self.saver.restore(self.session, MODEL_NAME)
-            print("Model restored.")
+            print("Compute the score......")
 
     def init_game_setting(self):
         """
@@ -126,25 +127,23 @@ class Agent_DQN(Agent):
 
         # save network
         if self.timeStep % 10000 == 0:
-            self.saver.save(self.session, './save_model/DQN', global_step = self.timeStep)
+            self.saver.save(self.session, './save_model/Model', global_step = self.timeStep)
         
         # update target Q
         if self.timeStep % UPDATE_Qhat_TIME == 0:
             self.copyTargetQNetwork()
 
     def make_action(self,observation, test=True):
-        observation = observation.reshape((1,84,84,4))
-        QValue = self.QValue.eval(feed_dict={self.stateInput:observation})[0]
+        QValue = self.QValue.eval(feed_dict={self.stateInput:observation.reshape((1,84,84,4))})[0]
         
         if random.random() <= self.epsilon and not test:
             action = random.randrange(self.actions)
+        elif test and random.random()>0.01:
+        	action = np.argmax(QValue)
+        elif test:
+            action = random.randrange(self.actions)        
         else:
             action = np.argmax(QValue)
-        
-        if test and random.random()>0.01:
-            action = np.argmax(QValue)
-        elif test:
-            action = random.randrange(self.actions)
 
         if self.epsilon > END_EPSILON and self.timeStep > 50000.: 
             self.epsilon -= (INIT_EPSILON - END_EPSILON) / 1000000.
@@ -159,9 +158,7 @@ class Agent_DQN(Agent):
         if len(self.replayBuffer) > REPLAY_BUFFER:
             self.replayBuffer.popleft()
         if len(self.replayBuffer) > BATCH_SIZE:
-            # skip frame
             if self.timeStep % UPDATE_Q_TIME ==0:
-                # Train the network
                 self.trainQNetwork()
         self.timeStep += 1
 
@@ -170,12 +167,12 @@ class Agent_DQN(Agent):
         Implement your training algorithm here
         """
         records = [] #save to plot learning curve
-        for e in range(NUM_EPISODES):
+        for e in range(1000000):
             current_state = self.env.reset()
             step_count = 0
             total_reward = 0
 
-            for ct in range(MAX_NUM_STEPS):
+            for ct in range(10000):
                 action = self.make_action(current_state, test=False)
                 next_state,reward, done, _ = self.env.step(action)
                 unclip_reward = reward
