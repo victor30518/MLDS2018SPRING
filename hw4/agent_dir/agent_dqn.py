@@ -173,8 +173,8 @@ class Agent_DQN(Agent):
             total_reward = 0
 
             for ct in range(10000):
-                action = self.make_action(current_state, test=False)
-                next_state,reward, done, _ = self.env.step(action)
+                next_state,reward, done, _ = self.env.step(self.make_action(current_state, test=False))
+                # self clip
                 unclip_reward = reward
                 total_reward += unclip_reward
                 if reward>0:
